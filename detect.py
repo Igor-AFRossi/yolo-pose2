@@ -1,7 +1,7 @@
 import argparse
 import time
 from pathlib import Path
-
+import matplotlib.pyplot as plt
 import os
 import copy
 import cv2
@@ -83,6 +83,8 @@ def detect(opt):
         if classify:
             pred = apply_classifier(pred, modelc, img, im0s)
 
+        #print(pred)
+
         # Process detections
         for i, det in enumerate(pred):  # detections per image
             if webcam:  # batch_size >= 1
@@ -137,7 +139,10 @@ def detect(opt):
             # Stream results
             if view_img:
                 cv2.imshow(str(p), im0)
-                cv2.waitKey(1)  # 1 millisecond
+                if dataset.mode == 'image':
+                    cv2.waitKey(0)  # keyboard close
+                else:
+                    cv2.waitKey(1)  # 1 millisecond
 
             # Save results (image with detections)
             if save_img:
